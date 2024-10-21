@@ -1,0 +1,23 @@
+{
+  "name": "web-challenge",
+  "version": "0.0.0+1",
+  "description": "web-challenge",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "apis:start": "cd apis && npm run start:dev && cd ../",
+    "apis:migrate": "cd apis && npm run migrate && cd ../",
+    "apis:format": "cd apis && npm run format && cd ../",
+    "apis:format:fix": "cd apis && npm run format:fix && cd ../",
+    "apis:lint": "cd apis && npm run lint && cd ../",
+    "apis:test": "cd apis && npm run test && cd ../",
+    "apis:test:cov": "cd apis && npm run test:cov && cd ../",
+    "apis:test:e2e": "cd apis && npm run test:e2e && cd ../",
+    "client:start": "cd client && npm run start && cd ../",
+    "client:build": "cd client && npm run build && cd ../",
+    "client:test": "cd client && npm run test && cd ../",
+    "db:start": "cd scripts && sudo ./setup-db.sh up && cd ../",
+    "db:stop": "cd scripts && sudo ./setup-db.sh down && cd ../",
+    "server:start": "cd server && npm run start && cd ../"
+  }
+}

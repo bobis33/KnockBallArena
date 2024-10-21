@@ -1,0 +1,33 @@
+name: API Test
+run-name: ${{github.actor}} ${{github.branch}} | API Test
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4.1.7
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: "20.17"
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./apis
+
+      - name: Test
+        run: npm run test
+        working-directory: ./apis
+
+      - name: Test e2e
+        run: npm run test:e2e
+        working-directory: ./apis
