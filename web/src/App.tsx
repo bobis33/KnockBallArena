@@ -1,11 +1,11 @@
 import React from 'react';
 import './styles/global.scss';
 
-import Connection from './Components/Connections/Connection';
+import Auth from './Components/Connections/Auth';
 
 function App() {
   return (
-      <Connection />
+      <Auth />
   );
 }
 
