@@ -5,22 +5,10 @@
 
 run project:
 
-first run db:
 ```bash
-./scripts/setup_db.sh
+npm run web:start
 ```
-then run api:
-```bash
-npm run apis:start
-```
-then run server:
-```bash
-npm run server:start
-```
-then run client:
-```bash
-npm run client:start
-```
+
 # Commit Norms
 
 | Commit Type | Description                                                                                                               |
