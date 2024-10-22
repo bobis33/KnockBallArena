@@ -56,7 +56,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
               </motion.h1>
               <div className="space-x-12 px-20">
                 <motion.button
-                  className={`w-64 py-4 text-xl font-semibold rounded-full transition duration-300 ${
+                  className={`w-64 py-4 text-xl font-semibold bg-gray-800 bg-opacity-50 rounded-full transition duration-300 ${
                     hoveredButton === 'start' ? 'bg-white text-gray-800' : 'text-white border-4 border-white'
                   }`}
                   whileHover={{ scale: 1.05 }}
@@ -67,7 +67,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
                   Start
                 </motion.button>
                 <motion.button
-                  className={`w-64 py-4 text-xl font-semibold rounded-full transition duration-300 ${
+                  className={`w-64 py-4 text-xl font-semibold bg-gray-800 bg-opacity-50 rounded-full transition duration-300 ${
                     hoveredButton === 'customize' ? 'bg-white text-gray-800' : 'text-white border-4 border-white'
                   }`}
                   whileHover={{ scale: 1.05 }}
