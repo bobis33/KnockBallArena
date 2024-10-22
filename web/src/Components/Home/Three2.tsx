@@ -25,7 +25,7 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
         controls.enablePan = false;
 
         const loader = new THREE.TextureLoader();
-        loader.load('src/assets/funny-background-drawing-backgrounds-cartoon-1-5c9b97d02ea80.png', (texture) => {
+        loader.load('ciel.jpg', (texture) => {
             scene.background = texture;
         });
 
@@ -37,7 +37,7 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
 
         scene.add(sphere);
 
-        const platformTexture = new THREE.TextureLoader().load('lotus-test.jpg');
+        const platformTexture = new THREE.TextureLoader().load('floor.jpg');
         const platformGeometry = new THREE.PlaneGeometry(30, 30);
         const platformMaterial = new THREE.MeshBasicMaterial({ map: platformTexture });
         const platform = new THREE.Mesh(platformGeometry, platformMaterial);

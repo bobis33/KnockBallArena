@@ -1,19 +1,9 @@
 import { useState } from 'react';
 
 const skins = [
-  { id: 1, color: 'bg-red-500', texturePath: 'lotus-test.jpg' },
-  { id: 2, color: 'bg-blue-500', texturePath: 'logo192.png' },
-  { id: 3, color: 'bg-green-500', texturePath: 'path_to_texture_3.jpg' },
-  { id: 4, color: 'bg-yellow-500', texturePath: 'path_to_texture_4.jpg' },
-  { id: 5, color: 'bg-purple-500', texturePath: 'path_to_texture_5.jpg' },
-  { id: 6, color: 'bg-indigo-500', texturePath: 'path_to_texture_6.jpg' },
-  { id: 7, color: 'bg-red-500', texturePath: 'lotus-test.jpg' },
-  { id: 8, color: 'bg-blue-500', texturePath: 'logo192.png' },
-  { id: 9, color: 'bg-green-500', texturePath: 'path_to_texture_3.jpg' },
-  { id: 10, color: 'bg-yellow-500', texturePath: 'path_to_texture_4.jpg' },
-  { id: 11, color: 'bg-purple-500', texturePath: 'path_to_texture_5.jpg' },
-  { id: 12, color: 'bg-indigo-500', texturePath: 'path_to_texture_6.jpg' },
-  { id: 12, color: 'bg-indigo-500', texturePath: 'path_to_texture_6.jpg' },
+  { id: 1, color: 'bg-red-500', texturePath: 'skins/BasketballColor.jpg' },
+  { id: 2, color: 'bg-blue-500', texturePath: 'skins/NewTennisBallColor.jpg' },
+  { id: 3, color: 'bg-green-500', texturePath: 'skins/SoftballColor.jpg' },
 ];
 
 export default function Customize({ onBack, onTextureChange }: { onBack: () => void; onTextureChange: (texturePath: string) => void }) {

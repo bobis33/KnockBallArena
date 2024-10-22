@@ -10,10 +10,9 @@ interface HomePageProps {
 }
 
 const texturePaths = [
-  'lotus-test.jpg',
-  'logo192.png',
-  'path_to_texture_3.jpg',
-  'path_to_texture_4.jpg',
+  'skins/BasketballColor.jpg',
+  'skins/NewTennisBallColor.jpg',
+  'skins/SoftballColor.jpg',
 ];
 
 export default function HomePage({ onLogout }: HomePageProps) {
