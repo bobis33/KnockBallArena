@@ -1,9 +1,12 @@
 import { useState } from 'react';
 
+import ReturnButton from '../Home/ReturnButton';
+
 const skins = [
   { id: 1, color: 'bg-red-500', texturePath: 'skins/BasketballColor.jpg' },
   { id: 2, color: 'bg-blue-500', texturePath: 'skins/NewTennisBallColor.jpg' },
   { id: 3, color: 'bg-green-500', texturePath: 'skins/SoftballColor.jpg' },
+  { id: 4, color: 'bg-yellow-500', texturePath: 'skins/SoccerBallColor.jpg' },
 ];
 
 export default function Customize({ onBack, onTextureChange }: { onBack: () => void; onTextureChange: (texturePath: string) => void }) {
@@ -42,12 +45,11 @@ export default function Customize({ onBack, onTextureChange }: { onBack: () => v
             </button>
           ))}
         </div>
-        <button
-          className="w-64 py-5 mt-10 text-xl font-semibold rounded-full bg-gray-600 text-white hover:bg-gray-700 transition duration-300"
-          onClick={onBack}
-        >
-          Back
-        </button>
+        <ReturnButton
+          onReturn={onBack}
+          text='Back to Menu'
+          className='w-64 py-5 mt-10 ml-6 text-xl font-semibold rounded-lg bg-gray-600 text-white hover:bg-gray-700 transition duration-300'
+        />
       </div>
     </div>
   );

@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Customize from '../Customize/Customize';
 import Three1 from './Three1';
 import Three2 from './Three2';
+import Three3 from './Three3';
 import Leaderboard from '../Stats/Leaderboard';
+import ReturnButton from './ReturnButton';
 
 interface HomePageProps {
   onLogout: () => void;
@@ -20,6 +22,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
   const [isCustomizeMode, setIsCustomizeMode] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [selectedTexture, setSelectedTexture] = useState<string>(texturePaths[0]);
+  const [isStarted, setIsStarted] = useState(false);
 
   const handleCustomizeClick = () => {
     setIsCustomizeMode(true);
@@ -38,10 +41,18 @@ export default function HomePage({ onLogout }: HomePageProps) {
     setSelectedTexture(texturePath);
   };
 
+  const handleStartClick = () => {
+    setIsStarted(true);
+  };
+
+  const handleReturnToHome = () => {
+    setIsStarted(false);
+  };
+
   return (
     <div>
       <AnimatePresence>
-        {!isCustomizeMode ? (
+        {!isCustomizeMode && !isStarted ? (
           <>
             <Leaderboard />
             <Three1 />
@@ -63,6 +74,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
                   whileTap={{ scale: 0.95 }}
                   onMouseEnter={() => setHoveredButton('start')}
                   onMouseLeave={() => setHoveredButton(null)}
+                  onClick={handleStartClick}
                 >
                   Start
                 </motion.button>
@@ -90,6 +102,15 @@ export default function HomePage({ onLogout }: HomePageProps) {
               </motion.button>
             </div>
           </>
+        ) : isStarted ? (
+          <div>
+            <Three3 sphereTexturePath={selectedTexture} />
+            <ReturnButton
+              onReturn={handleReturnToHome}
+              text='Back to Menu'
+              className='absolute top-4 left-4 px-4 py-2 text-lg font-semibold rounded-lg bg-gray-700 text-white hover:bg-gray-800 transition duration-300'
+            />
+          </div>
         ) : (
           <div className="flex items-start">
             <Three2 sphereTexturePath={selectedTexture} />

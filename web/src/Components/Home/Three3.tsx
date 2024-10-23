@@ -25,17 +25,11 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
         controls.enablePan = false;
 
         const loader = new THREE.TextureLoader();
-        const backgroundTexture = loader.load('ciel.jpg');
-
-        const backgroundGeometry = new THREE.SphereGeometry(50, 64, 64);
-        const backgroundMaterial = new THREE.MeshBasicMaterial({
-            map: backgroundTexture,
-            side: THREE.BackSide,
+        loader.load('ciel.jpg', (texture) => {
+            scene.background = texture;
         });
-        const backgroundSphere = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
-        scene.add(backgroundSphere);
 
-        const sphereTexture = loader.load(sphereTexturePath);
+        const sphereTexture = new THREE.TextureLoader().load(sphereTexturePath);
         const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
         const sphereMaterial = new THREE.MeshBasicMaterial({ map: sphereTexture });
         const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
@@ -43,7 +37,7 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
 
         scene.add(sphere);
 
-        const platformTexture = loader.load('floor.jpg');
+        const platformTexture = new THREE.TextureLoader().load('floor.jpg');
         const platformGeometry = new THREE.PlaneGeometry(30, 30);
         const platformMaterial = new THREE.MeshBasicMaterial({ map: platformTexture });
         const platform = new THREE.Mesh(platformGeometry, platformMaterial);
@@ -56,10 +50,9 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
 
         const animate = () => {
             requestAnimationFrame(animate);
+
             sphere.rotation.x += 0.01;
             sphere.rotation.y += 0.01;
-
-            backgroundSphere.rotation.y += 0.0005;
 
             renderer.render(scene, camera);
         };
