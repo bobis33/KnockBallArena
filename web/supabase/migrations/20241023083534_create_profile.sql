@@ -1,7 +1,6 @@
 create table
 profile (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references auth.users not null,
+  id uuid primary key references auth.users not null,
   username text unique not null,
   pos_x integer not null default 0,
   pos_y integer not null default 0,
@@ -21,7 +20,7 @@ security definer
 as $$
 begin
   if new.raw_user_meta_data is not null then
-    insert into "public"."profile" (user_id, username)
+    insert into "public"."profile" (id, username)
     values (new.id, new.raw_user_meta_data ->> 'username');
   else
     raise notice 'No user metadata provided for user %', new.id;
