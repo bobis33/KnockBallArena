@@ -16,7 +16,7 @@
     "react-dom": "^18.3.1",
     "react-scripts": "^5.0.1",
     "sass": "^1.80.3",
-    "supabase": "^1.207.8",
+    "supabase": "^1.207.9",
     "three": "^0.169.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -25,7 +25,12 @@
     "start": "node_modules/.bin/react-scripts start",
     "build": "node_modules/.bin/react-scripts build",
     "test": "node_modules/.bin/react-scripts test",
-    "eject": "node_modules/.bin/react-scripts eject"
+    "eject": "node_modules/.bin/react-scripts eject",
+    "supabase:init": "supabase init",
+    "supabase:start": "supabase start",
+    "supabase:db:push": "supabase db push",
+    "supabase:migration:new": "supabase migration new",
+    "supabase:db:dump": "supabase db dump"
   },
   "eslintConfig": {
     "extends": [
