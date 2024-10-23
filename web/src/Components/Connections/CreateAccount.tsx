@@ -6,7 +6,7 @@ interface CreateAccountProps {
 }
 
 export default function CreateAccount({ onSwitchToLogin }: CreateAccountProps) {
-  const [name, setPseudo] = useState('');
+  const [username, setPseudo] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +19,7 @@ export default function CreateAccount({ onSwitchToLogin }: CreateAccountProps) {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name: name } },
+        options: { data: { username: username } },
       });
 
       if (error) {
@@ -48,7 +48,7 @@ export default function CreateAccount({ onSwitchToLogin }: CreateAccountProps) {
                     id="name"
                     type="text"
                     placeholder="Enter your pseudo"
-                    value={name}
+                    value={username}
                     onChange={(e) => setPseudo(e.target.value)}
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

@@ -28,9 +28,14 @@
     "eject": "node_modules/.bin/react-scripts eject",
     "supabase:init": "supabase init",
     "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
     "supabase:db:push": "supabase db push",
+    "supabase:db:reset": "supabase db reset",
     "supabase:migration:new": "supabase migration new",
-    "supabase:db:dump": "supabase db dump"
+    "supabase:db:dump": "supabase db dump",
+    "supabase:db:pull": "supabase db pull",
+    "supabase:link": "supabase link",
+    "supabase:login": "supabase login"
   },
   "eslintConfig": {
     "extends": [

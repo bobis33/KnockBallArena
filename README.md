@@ -5,6 +5,13 @@
 
 run project:
 
+first run db:
+```bash
+npm run supabase:db:start && npm run supabase:dn:reset
+```
+if it doesnt work try with sudo
+
+
 ```bash
 npm run web:start
 ```
