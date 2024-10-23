@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import * as CANNON from 'cannon-es';
 
-let nbBalls = 30;
+let nbBalls = 50;
 
 const Three = () => {
     const canvasRef = useRef(null);

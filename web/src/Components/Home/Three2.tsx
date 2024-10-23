@@ -72,10 +72,10 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
             ref={sceneRef}
             style={{
                 position: 'absolute',
-                top: -10,
-                left: -10,
-                width: '110%',
-                height: '110%',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
                 zIndex: -1,
                 backgroundColor: 'black',
             }}

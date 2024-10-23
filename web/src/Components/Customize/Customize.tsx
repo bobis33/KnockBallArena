@@ -15,30 +15,38 @@ export default function Customize({ onBack, onTextureChange }: { onBack: () => v
   };
 
   return (
-    <div className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-start rounded-3xl py-76 my-16 ml-6">
-      <div className="max-w-3xl border-gray-300">
-        <h1 className="text-3xl font-extrabold text-center text -gray-900 mb-8">
+    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-3xl font-extrabold text-center text-gray-900 mb-8">
           Choose your skin
         </h1>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-6">
           {skins.map((skin) => (
-            <div
+            <button
               key={skin.id}
-              onClick={() => handleSkinSelect(skin.id, skin.texturePath)}
-              className={`rounded-full cursor-pointer transition-transform transform border-black ${
-                selectedSkin === skin.id ? 'scale-105 border-black' : 'border-transparent'
+              className={`aspect-square rounded-lg border-2 border-gray-300 p-2 focus:outline-none transition-all duration-200 ${
+                selectedSkin === skin.id ? 'border-blue-500' : 'hover:border-blue-300'
               }`}
+              onClick={() => handleSkinSelect(skin.id, skin.texturePath)}
+              aria-label={`Select skin color ${skin.id}`}
             >
-              <div className={`${skin.color} w-20 h-20 rounded-full`}></div>
+              <div className="relative w-full h-full">
+                <div
+                  className={`absolute inset-0 rounded-full ${skin.color} transform transition-transform duration-200 ${
+                    selectedSkin === skin.id ? 'scale-90' : 'scale-75'
+                  }`}
+                  aria-hidden="true"
+                ></div>
+              </div>
               <p className="text-center mt-2">Skin {skin.id}</p>
-            </div>
+            </button>
           ))}
         </div>
         <button
-          className="w-64 py-5 ml-4 mt-10 text-xl font-semibold rounded-full bg-gray-600 text-white hover:bg-gray-700 transition duration-300"
+          className="w-64 py-5 mt-10 text-xl font-semibold rounded-full bg-gray-600 text-white hover:bg-gray-700 transition duration-300"
           onClick={onBack}
         >
-          Back to Home
+          Back
         </button>
       </div>
     </div>
