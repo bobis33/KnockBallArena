@@ -104,7 +104,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
           </>
         ) : isStarted ? (
           <div>
-            <Three3 sphereTexturePath={selectedTexture} />
+            <Three3 />
             <ReturnButton
               onReturn={handleReturnToHome}
               text='Back to Menu'
