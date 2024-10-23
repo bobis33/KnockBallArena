@@ -6,6 +6,9 @@ profile (
   pos_x integer not null default 0,
   pos_y integer not null default 0,
   pos_z integer not null default 0,
+  rotation_x integer not null default 0,
+  rotation_y integer not null default 0,
+  rotation_z integer not null default 0,
   texture text not null default 'default',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null

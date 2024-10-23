@@ -49,7 +49,7 @@ export default function Auth() {
         {currentView === 'createAccount' && (
             <CreateAccount onSwitchToLogin={switchToLogin} />
         )}
-        {currentView === 'home' && <HomePage onLogout={handleLogout} />}
+        {currentView === 'home' && <HomePage onLogout={handleLogout} userId={session?.user.id || ''} />}
       </div>
   );
 }

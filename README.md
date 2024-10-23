@@ -7,7 +7,7 @@ run project:
 
 first run db:
 ```bash
-npm run supabase:db:start && npm run supabase:dn:reset
+npm run supabase:start && npm run supabase:db:reset
 ```
 if it doesnt work try with sudo
 
@@ -15,6 +15,8 @@ if it doesnt work try with sudo
 ```bash
 npm run web:start
 ```
+
+You have a default user : default@default.fr
 
 # Commit Norms
 
