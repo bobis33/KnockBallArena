@@ -59,7 +59,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
             <Leaderboard />
             <Three1 />
             <div className='min-h-screen flex flex-col items-center justify-center relative'>
-              <img src="/logo.png" alt="KnockBallArena2" className="mx-auto mb-12" style={{ width: '40%', height: 'auto' }}/>
+              <img src="/logo.png" alt="KnockBallArenaLogo" className="mx-auto mb-12" style={{ width: '40%', height: 'auto' }}/>
               <div className="space-x-12 px-20">
                 <motion.button
                   className={`w-64 py-4 text-xl font-semibold bg-gray-800 bg-opacity-50 rounded-full transition duration-300 ${
