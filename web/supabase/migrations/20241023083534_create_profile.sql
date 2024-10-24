@@ -13,6 +13,7 @@ profile (
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+alter publication supabase_realtime add table profile;
 create function public.create_row_profile()
 returns trigger
 language plpgsql
