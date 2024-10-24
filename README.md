@@ -1,3 +1,7 @@
+![KnockBallArena_Logo](https://raw.githubusercontent.com/bobis33/KnockBallArena/main/public/logo.png)
+
+[![KnockBallArena_CI](https://github.com/bobis33/KnockBallArena/actions/workflows/client-build.yml/badge.svg)](https://github.com/bobis33/KnockBallArena/actions/workflows/client-build.yml)
+![GitHub repo size](https://img.shields.io/github/repo-size/bobis33/KnockBallArena)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/bobis33/KnockBallArena/blob/main/LICENSE.md)
 
 
