@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Customize from '../Customize/Customize';
 import Three1 from './Three1';
@@ -8,6 +8,7 @@ import Leaderboard from '../Stats/Leaderboard';
 import ReturnButton from './ReturnButton';
 import Settings from '../Settings/Settings';
 import {RealTimeContext} from "../../RealTimeContext";
+import { supabase } from '../../supabaseClient';
 
 interface HomePageProps {
   onLogout: () => void;
@@ -53,6 +54,20 @@ export default function HomePage({ onLogout }: HomePageProps) {
   };
 
   const realtimePayload = useContext(RealTimeContext);
+  const [userId, setUserId] = useState('');
+
+
+  useEffect(() => {
+    const checkSession = async () => {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+            setUserId(data.session.user.id);
+        }
+
+    };
+
+    checkSession();
+}, []);
 
   return (
     <div>
@@ -117,7 +132,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
           </>
         ) : isStarted ? (
           <div>
-            <Three3 />
+            <Three3 userId={userId.toString()} />
             <ReturnButton
               onReturn={handleReturnToHome}
               text='Back to Menu'

@@ -7,7 +7,6 @@ export const supabase = createClient(supabaseUrl, supabaseKey)
 supabase
     .channel('realtime:public:profile')
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profile' }, (payload) => {
-        console.log('Change received!', payload)
     }
 ).subscribe()
 

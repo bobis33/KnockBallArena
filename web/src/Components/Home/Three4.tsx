@@ -6,14 +6,14 @@ import {RealTimeContext} from "../../RealTimeContext";
 import { animate } from 'framer-motion';
 import { supabase } from '../../supabaseClient';
 
-let nbBalls = 1;
+let nbBalls = 0;
 let ballsize = 1;
 
-interface Three3Props {
+interface Three4Props {
     userId: string;
 }
 
-export default function Three3({ userId }: Three3Props) {
+export default function Three4({ userId }: Three4Props) {
 
     const canvasRef = useRef<HTMLDivElement>(null);
     const sphereBodiesRef = useRef<CANNON.Body[]>([]);
@@ -40,11 +40,14 @@ export default function Three3({ userId }: Three3Props) {
 
         const updatePos = async () => {
             if (!userId) return;
+            console.log('Position updated:', controllableBodyRef.current?.position);
             try {
                 const { error } = await supabase
                     .from('profile')
                     .update({ pos_x: controllableBodyRef.current?.position.x, pos_y: controllableBodyRef.current?.position.y, pos_z: controllableBodyRef.current?.position.z })
                     .eq('id', userId);
+                console.log('Position updated:', controllableBodyRef.current?.position);
+                console.log('Position updated:', pos_x, pos_y, pos_z);
                 if (error) {
                     throw error;
                 }
@@ -53,43 +56,6 @@ export default function Three3({ userId }: Three3Props) {
             }
         }
 
-        const checkOtherPlayers = async () => {
-            try {
-                const { data, error } = await supabase
-                    .from('profile')
-                    .select('id, pos_x, pos_y, pos_z, username')
-                    .neq('id', userId)
-                    .eq('is_in_game', true);
-                if (error) {
-                    throw error;
-                }
-                if (data) {
-                    data.forEach((player: any) => {
-                        if (adverseBody) {
-                            // Log the current position before updating
-                            console.log('Current position of adverseBody:', adverseBody.position);
-        
-                            // Update the position
-                            adverseBody.position.set(player.pos_x, player.pos_y, player.pos_z);
-                            adverseSphere.position.set(player.pos_x, player.pos_y, player.pos_z);
-                            console.log('OUIIIIIII');
-        
-                            // Log the new position after updating
-                            console.log('Updated position of adverseBody:', adverseBody.position);
-        
-                            // Additional check to ensure the physics engine is aware of the update
-        
-                            console.log('Player name:', player.username);
-                            console.log('Player position:', player.pos_x, player.pos_y, player.pos_z);
-                        } else {
-                            console.warn(`No adverseBody found for player id: ${player.id}`);
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching other players:', error);
-            }
-        };
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         if (canvasRef.current) {
@@ -132,7 +98,12 @@ export default function Three3({ userId }: Three3Props) {
         const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
 
         for (let i = 0; i < nbBalls; i++) {
-            
+            const texture = textures[Math.floor(Math.random() * textures.length)];
+            const sphereMaterial = new THREE.MeshBasicMaterial({ map: texture });
+            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere.position.set(Math.random() * 10 - 5, 2, Math.random() * 10 - 5);
+            scene.add(sphere);
+            spheresRef.current.push(sphere);
         }
 
         const controllableTexture = new THREE.TextureLoader().load('skins/polboule.png');
@@ -144,13 +115,6 @@ export default function Three3({ userId }: Three3Props) {
         controllableSphereRef.current = controllableSphere;
 
         ballsize = 1;
-
-        const adverseTexture = new THREE.TextureLoader().load('skins/BasketballColor.jpg');
-        const adverseMaterial = new THREE.MeshBasicMaterial({ map: adverseTexture });
-        let adverseSphere = new THREE.Mesh(sphereGeometry, adverseMaterial);
-        adverseSphere.position.set(0, 20, 0);
-        adverseSphere.scale.set(ballsize, ballsize, ballsize);
-        scene.add(adverseSphere);
 
         //MAP
         const platformTexture = new THREE.TextureLoader().load('floor.jpg');
@@ -206,13 +170,6 @@ export default function Three3({ userId }: Three3Props) {
         world.addBody(controllableBody);
         controllableBodyRef.current = controllableBody;
 
-
-        let adverseBody = new CANNON.Body({ mass: 10, position: new CANNON.Vec3(0, 20, 0), material: new CANNON.Material({ friction }) });
-        adverseBody.addShape(sphereShape);
-        world.addBody(adverseBody);
-        sphereBodiesRef.current.push(adverseBody);
-        spheresRef.current.push(adverseSphere);
-
         //MAP
         const platformShape = new CANNON.Box(new CANNON.Vec3(7.5, 0.5, 7.5));
         const platformBody = new CANNON.Body({ mass: 0 });
@@ -258,12 +215,27 @@ export default function Three3({ userId }: Three3Props) {
             });
         }, 50);
 
+        // Appliquer des impulsions aléatoires aux sphères
+        const applyRandomImpulse = (body: CANNON.Body) => {
+            const impulse = new CANNON.Vec3(
+                (Math.random() - 0.5) * 200,
+                0,
+                (Math.random() - 0.5) * 200
+            );
+            body.applyImpulse(impulse, body.position);
+        };
+
+        // Appliquer des impulsions toutes les deux secondes
+        const intervalId = setInterval(() => {
+            sphereBodiesRef.current.forEach(applyRandomImpulse);
+        }, 500);
+
         const updatePhysics = () => {
+
+            // Mettre à jour position dans la base de données
+            //console.log('Realtime position:', controllableBodyRef.current?.position);
+            //console.log('Realtime quaternion:', controllableBodyRef.current?.quaternion);
             updatePos();
-            setInterval(() => {
-                checkOtherPlayers();
-            }
-            , 1000);
 
             world.step(1 / 60);
 
@@ -339,6 +311,8 @@ export default function Three3({ userId }: Three3Props) {
             controls.update();
             renderer.render(scene, camera);
         }
+
+        console.log('Realtime Payload:', realtimePayload);
 
         updatePhysics();
         animate();
