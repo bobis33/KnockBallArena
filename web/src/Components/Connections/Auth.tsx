@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Connection from './Connection';
 import CreateAccount from './CreateAccount';
-import HomePage from '../Home/Home';
+import HomePage from '../../Pages/Home';
 import { supabase } from '../../supabaseClient';
 import { Session } from '@supabase/supabase-js';
 

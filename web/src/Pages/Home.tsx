@@ -1,12 +1,12 @@
 import {useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Customize from '../Customize/Customize';
-import Three1 from './Three1';
-import Three2 from './Three2';
-import Three3 from './Three3';
-import Leaderboard from '../Stats/Leaderboard';
-import ReturnButton from './ReturnButton';
-import Settings from '../Settings/Settings';
+import Customize from '../Components/Customize/Customize';
+import Three1 from '../Components/Home/Three1';
+import Three2 from '../Components/Home/Three2';
+import Three3 from '../Components/Home/Three3';
+import Leaderboard from '../Components/Stats/Leaderboard';
+import ReturnButton from '../Components/Home/ReturnButton';
+import Settings from '../Components/Settings/Settings';
 
 interface HomePageProps {
   onLogout: () => void;
