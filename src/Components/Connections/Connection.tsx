@@ -38,7 +38,14 @@ export default function Connection({ onSwitchToCreateAccount, onSwitchToHome }: 
 
   return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <div className="absolute inset-0">
+          <img
+            src="logo.png"
+            alt="Background logo"
+            className="w-3/12 mt-20 object-cover mx-auto"
+          />
+        </div>
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md relative">
           <h2 className="text-2xl font-bold text-center mb-6">Log In</h2>
           <form onSubmit={handleLogin}>
             <div className="space-y-6">

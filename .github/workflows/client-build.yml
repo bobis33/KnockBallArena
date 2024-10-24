@@ -22,8 +22,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./web
+        working-directory: .
 
       - name: Build
         run: npm run build
-        working-directory: ./web
+        working-directory: .
