@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 MASINA Elliot
+Copyright (c) 2024 Elliot Masina, Tristan Le Du, Jules Sourbets and Paul Ragueneau
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

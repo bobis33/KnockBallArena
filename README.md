@@ -1,7 +1,9 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/bobis33/Efrei_Project/blob/main/LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/bobis33/KnockBallArena/blob/main/LICENSE.md)
 
 
-# Challenge Web #1 | B3 Development Web & Application Efrei Bordeaux
+# KnockBallArena
+
+## Challenge Web #1 | B3 Development Web & Application Efrei Bordeaux
 
 run project:
 
@@ -9,14 +11,16 @@ first run db:
 ```bash
 npm run supabase:start && npm run supabase:db:reset
 ```
-if it doesnt work try with sudo
+if it doesn't work try with sudo
 
 
 ```bash
 npm run web:start
 ```
 
-You have a default user : default@default.fr
+You have a default user : default1@default.fr password: default
+
+you can view the project at http://localhost:3000, db at http://localhost:54323 aand api at http://localhost:54321
 
 # Commit Norms
 
@@ -35,4 +39,4 @@ You have a default user : default@default.fr
 
 # License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/bobis33/end-year-project/blob/main/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/bobis33/KnockBallArena/blob/main/LICENSE.md) file for details.
