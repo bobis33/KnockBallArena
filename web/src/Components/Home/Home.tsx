@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useContext, useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Customize from '../Customize/Customize';
 import Three1 from './Three1';
@@ -7,8 +7,7 @@ import Three3 from './Three3';
 import Leaderboard from '../Stats/Leaderboard';
 import ReturnButton from './ReturnButton';
 import Settings from '../Settings/Settings';
-import {supabase} from "../../supabaseClient";
-import {Session} from "@supabase/supabase-js";
+import {RealTimeContext} from "../../RealTimeContext";
 
 interface HomePageProps {
   onLogout: () => void;
@@ -53,13 +52,15 @@ export default function HomePage({ onLogout }: HomePageProps) {
     setIsStarted(false);
   };
 
+  const realtimePayload = useContext(RealTimeContext);
+
   return (
     <div>
       <AnimatePresence>
         {!isCustomizeMode && !isStarted ? (
           <>
-            <Leaderboard />
             <Three1 />
+            <Leaderboard />
             <div className='min-h-screen flex flex-col items-center justify-center relative'>
               <img src="/KnockBallArena2.png" alt="KnockBallArena2" className="mx-auto mb-12" style={{ width: '40%', height: 'auto' }}/>
               <div className="space-x-12 px-20">
@@ -75,6 +76,12 @@ export default function HomePage({ onLogout }: HomePageProps) {
                 >
                   Start
                 </motion.button>
+                {realtimePayload && (
+                    <div>
+                      <h2>Latest Update:</h2>
+                      <p>{JSON.stringify(realtimePayload)}</p>
+                    </div>
+                )}
                 <motion.button
                   className={`w-64 py-4 text-xl font-semibold bg-gray-800 bg-opacity-50 rounded-full transition duration-300 ${
                     hoveredButton === 'customize' ? 'bg-white text-gray-800' : 'text-white border-4 border-white'
