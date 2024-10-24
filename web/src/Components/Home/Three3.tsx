@@ -11,10 +11,10 @@ const Three3 = () => {
     const spheresRef = useRef<THREE.Mesh[]>([]);
     const controllableSphereRef = useRef<THREE.Mesh | null>(null);
     const controllableBodyRef = useRef<CANNON.Body | null>(null);
-    const pressedKeys = useRef<Set<string>>(new Set()); // Assurer que c'est un Set
-    const speedLimit = 10; // Vitesse maximale de la boule
-    const acceleration = 2; // Accélération
-    const deceleration = 1; // Décélération
+    const pressedKeys = useRef<Set<string>>(new Set());
+    const speedLimit = 10;
+    const acceleration = 2;
+    const deceleration = 1;
 
     useEffect(() => {
         const scene = new THREE.Scene();
@@ -68,7 +68,7 @@ const Three3 = () => {
         world.gravity.set(0, -9.82, 0);
 
         const sphereShape = new CANNON.Sphere(1);
-        const friction = 0.3; // Coefficient de friction
+        const friction = 0.3;
 
         for (let i = 0; i < nbBalls; i++) {
             const sphereBody = new CANNON.Body({ mass: 10, position: new CANNON.Vec3(Math.random() * 10 - 5, 2, Math.random() * 10 - 5), material: new CANNON.Material({ friction }) });
@@ -89,11 +89,11 @@ const Three3 = () => {
         world.addBody(platformBody);
 
         const handleKeyDown = (event: KeyboardEvent) => {
-            pressedKeys.current.add(event.code); // Ajouter la touche pressée
+            pressedKeys.current.add(event.code);
         };
 
         const handleKeyUp = (event: KeyboardEvent) => {
-            pressedKeys.current.delete(event.code); // Supprimer la touche relâchée
+            pressedKeys.current.delete(event.code);
         };
 
         window.addEventListener('keydown', handleKeyDown);
@@ -130,19 +130,16 @@ const Three3 = () => {
 
                 direction.normalize();
 
-                // Appliquer une force proportionnelle à la direction
                 if (direction.length() > 0) {
                     if (currentSpeed < speedLimit) {
                         controllableBody.velocity.x += direction.x * acceleration;
                         controllableBody.velocity.z += direction.z * acceleration;
                     }
                 } else if (currentSpeed > 0) {
-                    // Appliquer une décélération
                     controllableBody.velocity.x *= (1 - deceleration * 0.01);
                     controllableBody.velocity.z *= (1 - deceleration * 0.01);
                 }
 
-                // Limiter la vitesse de la boule
                 controllableBody.velocity.x = Math.max(-speedLimit, Math.min(speedLimit, controllableBody.velocity.x));
                 controllableBody.velocity.z = Math.max(-speedLimit, Math.min(speedLimit, controllableBody.velocity.z));
 

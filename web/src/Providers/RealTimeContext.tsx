@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { supabase } from './supabaseClient';
+import { supabase } from '../supabaseClient';
 import { RealtimePostgresUpdatePayload } from '@supabase/supabase-js';
 
 interface ProfilePayload {

@@ -18,14 +18,12 @@ const Three = () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         canvasRef.current.appendChild(renderer.domElement);
 
-        // Ajout des contrôles orbitaux
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enabled = true; // Activer les contrôles d'orbite
         controls.enableRotate = true;
         controls.enableZoom = true;
         controls.enablePan = true;
 
-        // Charger plusieurs textures pour les sphères
         const textures = [
             new THREE.TextureLoader().load('skins/BasketballColor.jpg'),
             new THREE.TextureLoader().load('skins/NewTennisBallColor.jpg'),
@@ -34,7 +32,6 @@ const Three = () => {
 
         const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
 
-        // Créer les sphères
         for (let i = 0; i < nbBalls; i++) {
             const texture = textures[Math.floor(Math.random() * textures.length)];
             const sphereMaterial = new THREE.MeshBasicMaterial({ map: texture });
@@ -44,7 +41,6 @@ const Three = () => {
             spheresRef.current.push(sphere);
         }
 
-        // Charger une texture d'image pour la plateforme
         const platformTexture = new THREE.TextureLoader().load('floor.jpg');
         const platformGeometry = new THREE.PlaneGeometry(40, 40);
         const platformMaterial = new THREE.MeshBasicMaterial({ map: platformTexture });
@@ -53,7 +49,6 @@ const Three = () => {
         platform.rotation.x = -Math.PI / 2;
         scene.add(platform);
 
-        // Création de murs
         const wallGeometry = new THREE.BoxGeometry(20, 40, 2);
         const wallMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0 });
         const wall1 = new THREE.Mesh(wallGeometry, wallMaterial);
@@ -76,7 +71,6 @@ const Three = () => {
         wall4.rotation.y = Math.PI / 2;
         scene.add(wall4);
 
-        // Ajout du toit
         const roofGeometry = new THREE.PlaneGeometry(40, 40);
         const roofMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0 });
         const roof = new THREE.Mesh(roofGeometry, roofMaterial);
@@ -84,15 +78,12 @@ const Three = () => {
         roof.rotation.x = Math.PI / 2;
         scene.add(roof);
 
-        // Configuration de la caméra
-        camera.position.set(0, 5, 3); // Baisser la caméra initiale
+        camera.position.set(0, 5, 3);
         camera.lookAt(0, 0, 0);
 
-        // Initialiser le monde physique
         const world = new CANNON.World();
         world.gravity.set(0, -9.82, 0);
 
-        // Créer des corps physiques pour les sphères
         const sphereShape = new CANNON.Sphere(1);
         for (let i = 0; i < nbBalls; i++) {
             const sphereBody = new CANNON.Body({ mass: 1, shape: sphereShape });
@@ -101,13 +92,11 @@ const Three = () => {
             sphereBodiesRef.current.push(sphereBody);
         }
 
-        // Créer un corps physique pour la plateforme
         const platformShape = new CANNON.Box(new CANNON.Vec3(20, 0.5, 20));
         const platformBody = new CANNON.Body({ mass: 0, shape: platformShape });
         platformBody.position.set(0, -1, 0);
         world.addBody(platformBody);
 
-        // Créer des corps physiques pour les murs
         const wallShape = new CANNON.Box(new CANNON.Vec3(10, 20, 1));
         const wallBody1 = new CANNON.Body({ mass: 0, shape: wallShape });
         wallBody1.position.set(0, 0, -10);
@@ -127,13 +116,11 @@ const Three = () => {
         wallBody4.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2);
         world.addBody(wallBody4);
 
-        // Créer un corps physique pour le toit
         const roofShape = new CANNON.Box(new CANNON.Vec3(20, 0.5, 20));
         const roofBody = new CANNON.Body({ mass: 0, shape: roofShape });
         roofBody.position.set(0, 20, 0);
         world.addBody(roofBody);
 
-        // Appliquer des impulsions aléatoires aux sphères
         const applyRandomImpulse = (body) => {
             const impulse = new CANNON.Vec3(
                 (Math.random() - 0.5) * 10,
@@ -143,16 +130,13 @@ const Three = () => {
             body.applyImpulse(impulse, body.position);
         };
 
-        // Appliquer des impulsions toutes les deux secondes
         const intervalId = setInterval(() => {
             sphereBodiesRef.current.forEach(applyRandomImpulse);
         }, 500);
 
-        // Mise à jour de la physique
         const updatePhysics = () => {
             world.step(1 / 60);
 
-            // Réinitialisation de la position si une sphère tombe en dessous d'une certaine hauteur
             const resetHeight = -10;
             sphereBodiesRef.current.forEach((sphereBody, index) => {
                 if (sphereBody.position.y < resetHeight) {
@@ -162,7 +146,6 @@ const Three = () => {
                     applyRandomImpulse(sphereBody);
                 }
 
-                // Copie des coordonnées de Cannon.js vers Three.js
                 if (spheresRef.current[index]) {
                     spheresRef.current[index].position.copy(sphereBody.position);
                     spheresRef.current[index].quaternion.copy(sphereBody.quaternion);
@@ -177,7 +160,6 @@ const Three = () => {
         updatePhysics();
 
 
-        // Handle window resize
         const handleResize = () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();

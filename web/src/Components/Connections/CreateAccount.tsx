@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '../../supabaseClient'; // Assure-toi d'importer ton client Supabase
+import { supabase } from '../../supabaseClient';
 
 interface CreateAccountProps {
   onSwitchToLogin: () => void;
@@ -26,7 +26,7 @@ export default function CreateAccount({ onSwitchToLogin }: CreateAccountProps) {
         setError(error.message);
       } else {
         alert('Account created successfully! Please check your email to confirm.');
-        onSwitchToLogin(); // Switch to login page after successful sign up
+        onSwitchToLogin();
       }
     } catch (error) {
       setError('Something went wrong, please try again.');

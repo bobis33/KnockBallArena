@@ -3,7 +3,7 @@ import Connection from './Connection';
 import CreateAccount from './CreateAccount';
 import HomePage from '../Home/Home';
 import { supabase } from '../../supabaseClient';
-import { Session } from '@supabase/supabase-js'; // Import du type Session
+import { Session } from '@supabase/supabase-js';
 
 export default function Auth() {
   const [currentView, setCurrentView] = useState<'login' | 'createAccount' | 'home'>('login');
