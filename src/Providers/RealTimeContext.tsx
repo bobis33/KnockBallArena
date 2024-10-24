@@ -18,7 +18,6 @@ export const RealtimeProvider: React.FC<{ children: ReactNode }> = ({ children }
                 'postgres_changes',
                 { event: 'UPDATE', schema: 'public', table: 'profile' },
                 (payload: RealtimePostgresUpdatePayload<{ [key: string]: any }>) => {
-                    console.log('Change received!', payload);
                     setRealtimePayload(payload.new);
                 }
             )
