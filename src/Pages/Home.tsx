@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Customize from '../Components/Customize/Customize';
 import Three1 from '../Components/Home/Three1';
@@ -25,6 +25,9 @@ export default function HomePage({ onLogout }: HomePageProps) {
   const [selectedTexture, setSelectedTexture] = useState<string>(texturePaths[0]);
   const [isStarted, setIsStarted] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isStartPopupOpen, setIsStartPopupOpen] = useState(false);
+  const [isSoloMode, setIsSoloMode] = useState(false);
+  const [isMultiMode, setIsMultiMode] = useState(false);
 
   const handleCustomizeClick = () => {
     setIsCustomizeMode(true);
@@ -44,11 +47,25 @@ export default function HomePage({ onLogout }: HomePageProps) {
   };
 
   const handleStartClick = () => {
+    setIsStartPopupOpen(true);
+  };
+
+  const handleSoloClick = () => {
+    setIsSoloMode(true);
     setIsStarted(true);
+    setIsStartPopupOpen(false);
+  };
+
+  const handleMultiClick = () => {
+    setIsMultiMode(true);
+    setIsStarted(true);
+    setIsStartPopupOpen(false);
   };
 
   const handleReturnToHome = () => {
     setIsStarted(false);
+    setIsSoloMode(false);
+    setIsMultiMode(false);
   };
 
   return (
@@ -58,8 +75,13 @@ export default function HomePage({ onLogout }: HomePageProps) {
           <>
             <Leaderboard />
             <Three1 />
-            <div className='min-h-screen flex flex-col items-center justify-center relative'>
-              <img src="/logo.png" alt="KnockBallArena2" className="mx-auto mb-12" style={{ width: '40%', height: 'auto' }}/>
+            <div className="min-h-screen flex flex-col items-center justify-center relative">
+              <img
+                src="/logo.png"
+                alt="KnockBallArena2"
+                className="mx-auto mb-12"
+                style={{ width: '40%', height: 'auto' }}
+              />
               <div className="space-x-12 px-20">
                 <motion.button
                   className={`w-64 py-4 text-xl font-semibold bg-gray-800 bg-opacity-50 rounded-full transition duration-300 ${
@@ -99,20 +121,52 @@ export default function HomePage({ onLogout }: HomePageProps) {
                 </motion.button>
               </div>
               {isSettingsOpen && (
-                <Settings 
+                <Settings
                   onClose={() => setIsSettingsOpen(false)}
                   onLogout={onLogout}
                 />
               )}
+
+              {isStartPopupOpen && (
+                <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
+                  <div className="bg-white p-6 rounded-lg space-y-4">
+                    <motion.button
+                      className="w-64 py-4 text-xl font-semibold bg-gray-800 text-white rounded-full transition duration-300 hover:bg-gray-700"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleSoloClick}
+                    >
+                      Solo
+                    </motion.button>
+                    <motion.button
+                      className="w-64 py-4 text-xl font-semibold bg-gray-800 text-white rounded-full transition duration-300 hover:bg-gray-700"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleMultiClick}
+                    >
+                      Multi
+                    </motion.button>
+                  </div>
+                </div>
+              )}
             </div>
           </>
-        ) : isStarted ? (
+        ) : isSoloMode ? (
           <div>
-            <Three3 />
+            <Three1 />
             <ReturnButton
               onReturn={handleReturnToHome}
-              text='Back to Menu'
-              className='absolute top-4 left-4 px-4 py-2 text-lg font-semibold rounded-lg bg-gray-700 text-white hover:bg-gray-800 transition duration-300'
+              text="Back to Menu"
+              className="absolute top-4 left-4 px-4 py-2 text-lg font-semibold rounded-lg bg-gray-700 text-white hover:bg-gray-800 transition duration-300"
+            />
+          </div>
+        ) : isMultiMode ? (
+          <div>
+            <Three2 sphereTexturePath={selectedTexture} />
+            <ReturnButton
+              onReturn={handleReturnToHome}
+              text="Back to Menu"
+              className="absolute top-4 left-4 px-4 py-2 text-lg font-semibold rounded-lg bg-gray-700 text-white hover:bg-gray-800 transition duration-300"
             />
           </div>
         ) : (
@@ -122,7 +176,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
               className="flex-none"
               initial={{ x: isExiting ? 0 : '-100%' }}
               animate={{ x: isExiting ? '-100%' : 0 }}
-              transition={{ duration: .5 }}
+              transition={{ duration: 0.5 }}
             >
               <Customize
                 onBack={handleBackToHome}
