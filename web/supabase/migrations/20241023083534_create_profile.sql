@@ -2,13 +2,15 @@ create table
 profile (
   id uuid primary key references auth.users not null,
   username text unique not null,
+  texture text not null default 'default',
+  is_in_game boolean not null default false,
+  high_score integer not null default 0,
   pos_x integer not null default 0,
   pos_y integer not null default 0,
   pos_z integer not null default 0,
   rotation_x integer not null default 0,
   rotation_y integer not null default 0,
   rotation_z integer not null default 0,
-  texture text not null default 'default',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
