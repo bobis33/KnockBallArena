@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Customize from '../Customize/Customize';
 import Three1 from './Three1';
@@ -7,10 +7,11 @@ import Three3 from './Three3';
 import Leaderboard from '../Stats/Leaderboard';
 import ReturnButton from './ReturnButton';
 import Settings from '../Settings/Settings';
+import {supabase} from "../../supabaseClient";
+import {Session} from "@supabase/supabase-js";
 
 interface HomePageProps {
   onLogout: () => void;
-  userId: string;
 }
 
 const texturePaths = [
@@ -19,7 +20,7 @@ const texturePaths = [
   'skins/SoftballColor.jpg',
 ];
 
-export default function HomePage({ onLogout, userId }: HomePageProps) {
+export default function HomePage({ onLogout }: HomePageProps) {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [isCustomizeMode, setIsCustomizeMode] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -101,7 +102,6 @@ export default function HomePage({ onLogout, userId }: HomePageProps) {
               </div>
               {isSettingsOpen && (
                 <Settings 
-                  userId={userId}
                   onClose={() => setIsSettingsOpen(false)}
                   onLogout={onLogout}
                 />

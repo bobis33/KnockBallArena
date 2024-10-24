@@ -13,7 +13,6 @@ export default function Auth() {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
       if (data.session) {
-        setSession(data.session);
         setCurrentView('home');
       }
     };
@@ -49,7 +48,7 @@ export default function Auth() {
         {currentView === 'createAccount' && (
             <CreateAccount onSwitchToLogin={switchToLogin} />
         )}
-        {currentView === 'home' && <HomePage onLogout={handleLogout} userId={session?.user.id || ''} />}
+        {currentView === 'home' && <HomePage onLogout={handleLogout} />}
       </div>
   );
 }
