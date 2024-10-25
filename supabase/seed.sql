@@ -70,7 +70,7 @@ insert into
         current_timestamp,
         current_timestamp,
         '{"provider":"email","providers":["email"]}',
-        '{"username":"bobi"}',
+        '{"username":"bobi", "high_score":362}',
         current_timestamp,
         current_timestamp,
         '',
@@ -109,7 +109,7 @@ insert into
         current_timestamp,
         current_timestamp,
         '{"provider":"email","providers":["email"]}',
-        '{"username":"periicles"}',
+        '{"username":"periicles","high_score":29}',
         current_timestamp,
         current_timestamp,
         '',
@@ -117,3 +117,4 @@ insert into
         '',
         ''
     );
+
