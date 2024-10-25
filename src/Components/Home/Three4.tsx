@@ -7,6 +7,8 @@ import { supabase } from '../../supabaseClient';
 let nbBalls = 30;
 let ballsize = 1;
 let prevY = 0;
+let currentHighScore2 = 0;
+let score2 = 0;
 
 interface Three4Props {
     userId: string;
@@ -28,7 +30,6 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
 
     const [score, setScore] = useState(0);
     const [currentHighScore, setCurrentHighScore] = useState(0);
-    const [caca, SetHighScore] = useState(0);
 
 
     useEffect(() => {
@@ -45,9 +46,8 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
             if (error) {
               throw error;
             }
-    
             if (data) {
-                setCurrentHighScore(data.high_score);
+                currentHighScore2 = data.high_score;
             }
           } catch (error) {
             console.error('Error fetching High Score:', error);
@@ -57,27 +57,20 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
         fetchHighScore();
       }, [userId]);
 
-      useEffect(() => {
-        const SetHighScore = async () => {
-          if (!userId) return;
-    
-          try {
-            const { data, error } = await supabase
-                .from('profile')
-                .update({ high_score: score })
-                .eq('id', userId)
-                .single();
-    
-            if (error) {
-              throw error;
-            }
-          } catch (error) {
-            console.error('Error setting High Score:', error);
-          }
-        };
-    
-        SetHighScore();
-      }, [userId]);
+    const SetHighScore = async () => {
+      if (!userId) return;
+      try {
+        const { data, error } = await supabase
+            .from('profile')
+            .update({ high_score: score2 })
+            .eq('id', userId)    
+        if (error) {
+          throw error;
+        }
+      } catch (error) {
+        console.error('Error setting High Score:', error);
+      }
+    };
 
 
 
@@ -227,7 +220,6 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
         // Augmenter le score
         const scoreInterval = setInterval(() => {
             setScore(prevScore => {
-                //console.log('Score:', prevScore + 1);
     
                 // Vérifiez si le score est divisible par 3 pour augmenter la taille
                 if ((prevScore + 1) % 1 === 0 && controllableBody.position.y > 0) {
@@ -247,6 +239,7 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
                     }
                 }
                 setScore(prevScore + 1);
+                score2 = prevScore + 1;
                 return prevScore + 1; // Retourner le nouveau score
             });
         }, 50);
@@ -314,18 +307,15 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
                 if (controllableBody.position.y < 0 && prevY < 0) {
                     if (controllableBody.position.y < resetHeight - 5) {
                         if (prevY > resetHeight - 5) {
-                            console.log('Score:', score);
-                            console.log('High Score:', currentHighScore);
-                            if (score > currentHighScore) {
-                                SetHighScore(score);
+                            if (score2 > currentHighScore2) {
+                                SetHighScore();
                             }
                             resetvalues();
                             controllableBody.position.set(0, 5, 0);
                             controllableBody.velocity.set(0, 0, 0);
                             prevY = 5;
-                            setScore(0); // Réinitialiser le score lorsque la boule tombe
+                            setScore(0);
                             ballsize = 1;
-                            console.log('RESET');
                             handleBackToHome();
                         }
                     }
