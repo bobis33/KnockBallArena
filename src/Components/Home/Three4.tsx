@@ -12,7 +12,7 @@ interface Three4Props {
     score: number;
 }
 
-export default function Three4({ userId, shpereTexturePath }: Three4Props & { shpereTexturePath: string }) {
+export default function Three4({ userId, sphereTexturePath }: Three4Props & { sphereTexturePath: string }) {
 
     const canvasRef = useRef<HTMLDivElement>(null);
     const sphereBodiesRef = useRef<CANNON.Body[]>([]);
@@ -82,8 +82,8 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
         }
     
         // boule controlable
-        console.log(shpereTexturePath);
-        const controllableTexture = new THREE.TextureLoader().load(shpereTexturePath);
+        // console.log(sphereTexturePath);
+        const controllableTexture = new THREE.TextureLoader().load(sphereTexturePath);
         const controllableMaterial = new THREE.MeshBasicMaterial({ map: controllableTexture });
         let controllableSphere = new THREE.Mesh(sphereGeometry, controllableMaterial);
         controllableSphere.position.set(0, 2, 0);
@@ -161,7 +161,7 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
         // Augmenter le score
         const scoreInterval = setInterval(() => {
             setScore(prevScore => {
-                //console.log('Score:', prevScore + 1);
+                // console.log('Scale:', ballsize);
     
                 // Vérifiez si le score est divisible par 3 pour augmenter la taille
                 if ((prevScore + 1) % 1 === 0) {
@@ -243,7 +243,7 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
                 controllableBody.velocity.z = Math.max(-speedLimit, Math.min(speedLimit, controllableBody.velocity.z));
     
                 // Vérifiez la position de la sphère contrôlable
-                console.log(controllableBody.position.y);
+                // console.log(controllableBody.position.y);
                 if (controllableBody.position.y < resetHeight - 5) {
                     controllableBody.position.set(0, 5, 0);
                     controllableBody.velocity.set(0, 0, 0);
@@ -299,12 +299,11 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
             }
         };
     }, []);
-    
+
 
     return (
         <div ref={canvasRef}>
-            {/* Afficher le score */}
-            <div style={{ position: 'absolute', top: 20, left: 20, color: 'black', fontSize: '20px' }}>
+            <div style={{ position: 'absolute', top: '6rem', left: 20, color: 'white', fontSize: '2rem' }}>
                 Score: {score}
             </div>
         </div>
