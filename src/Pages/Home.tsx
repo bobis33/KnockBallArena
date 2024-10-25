@@ -16,8 +16,8 @@ interface HomePageProps {
 
 const texturePaths = [
   'skins/polboule.jpg',
-  'skins/bobiboule.png',
   'skins/titanboule.png',
+  'skins/bobiboule.png',
   'skins/julboule.png',
 ];
 
