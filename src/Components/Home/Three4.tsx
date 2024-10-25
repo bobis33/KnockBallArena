@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import * as CANNON from 'cannon-es';
 import { supabase } from '../../supabaseClient';
 
-let nbBalls = 30;
+let nbBalls = 50;
 let ballsize = 1;
 let prevY = 0;
 let currentHighScore2 = 0;
@@ -24,8 +24,8 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
     const controllableSphereRef = useRef<THREE.Mesh | null>(null);
     const controllableBodyRef = useRef<CANNON.Body | null>(null);
     const pressedKeys = useRef<Set<string>>(new Set());
-    const speedLimit = 4;
-    const acceleration = 1 * (ballsize * 2);
+    const speedLimit = 15;
+    const acceleration = 8 * (ballsize * 2);
     const deceleration = 1;
 
     const [score, setScore] = useState(0);
