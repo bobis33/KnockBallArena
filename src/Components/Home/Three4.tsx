@@ -95,7 +95,6 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
         controls.enablePan = false;
 
         const resetvalues = () => {
-            nbBalls = 30;
             ballsize = 1;
             prevY = 0;
             sphereBodiesRef.current = [];
@@ -247,9 +246,9 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
         // Appliquer des impulsions aléatoires aux sphères
         const applyRandomImpulse = (body: CANNON.Body) => {
             const impulse = new CANNON.Vec3(
-                (Math.random() - 0.5) * 100,
+                (Math.random() - 0.5) * 130,
                 0,
-                (Math.random() - 0.5) * 100
+                (Math.random() - 0.5) * 130
             );
             body.applyImpulse(impulse, body.position);
         };
@@ -375,9 +374,8 @@ export default function Three4({ userId, shpereTexturePath, handleBackToHome }: 
 
     return (
         <div ref={canvasRef}>
-            {/* Afficher le score */}
-            <div style={{ position: 'absolute', top: 20, left: 20, color: 'black', fontSize: '20px' }}>
-                Score: {score}
+            <div style={{ position: 'absolute', top: '6rem', left: 20, color: 'white', fontSize: '2rem' }}>
+                Score: {score2}
             </div>
         </div>
     );
