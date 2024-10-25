@@ -1,21 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Customize from '../Components/Customize/Customize';
 import Three1 from '../Components/Home/Three1';
 import Three2 from '../Components/Home/Three2';
 import Three3 from '../Components/Home/Three3';
+import Three4 from '../Components/Home/Three4';
 import Leaderboard from '../Components/Stats/Leaderboard';
 import ReturnButton from '../Components/Home/ReturnButton';
 import Settings from '../Components/Settings/Settings';
+import { supabase } from '../supabaseClient';
 
 interface HomePageProps {
   onLogout: () => void;
 }
 
 const texturePaths = [
-  'skins/BasketballColor.jpg',
-  'skins/NewTennisBallColor.jpg',
-  'skins/SoftballColor.jpg',
+  'skins/polboule.jpg',
+  'skins/bobiboule.png',
+  'skins/titanboule.png',
+  'skins/julboule.png',
 ];
 
 export default function HomePage({ onLogout }: HomePageProps) {
@@ -68,6 +71,41 @@ export default function HomePage({ onLogout }: HomePageProps) {
     setIsMultiMode(false);
   };
 
+  const BackgroundMusic = ({ musicPath }: { musicPath: string }) => {
+    useEffect(() => {
+      const audio = new Audio(musicPath);
+      audio.loop = true; // Pour que la musique se répète
+      audio.volume = 0.5; // Ajuste le volume si nécessaire
+      audio.play().catch((error) => {
+        console.error('Erreur lors de la lecture de la musique :', error);
+      });
+
+      return () => {
+        audio.pause(); // Arrête la musique quand le composant est démonté
+        audio.currentTime = 0; // Réinitialise le temps de lecture
+      };
+    }, []);
+  
+    return null; // Ne rend rien dans le DOM
+  };
+
+  const [score, setScore] = useState(0);
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    const checkSession = async () => {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+            setUserId(data.session.user.id);
+        }
+
+    };
+
+    checkSession();
+}, []);
+
+  
+
   return (
     <div>
       <AnimatePresence>
@@ -75,6 +113,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
           <>
             <Leaderboard />
             <Three1 />
+            <BackgroundMusic musicPath="menu.mp3" />
             <div className="min-h-screen flex flex-col items-center justify-center relative">
               <img
                 src="/logo.png"
@@ -153,16 +192,22 @@ export default function HomePage({ onLogout }: HomePageProps) {
           </>
         ) : isSoloMode ? (
           <div>
-            <Three1 />
+            <BackgroundMusic musicPath="ingame.mp3" />
+            <Three4 userId={userId.toString()} score={score} shpereTexturePath={selectedTexture} />
             <ReturnButton
               onReturn={handleReturnToHome}
               text="Back to Menu"
               className="absolute top-4 left-4 px-4 py-2 text-lg font-semibold rounded-lg bg-gray-700 text-white hover:bg-gray-800 transition duration-300"
             />
+            <div>
+              <h1>Score: {score}</h1>
+              <Three4 userId={userId.toString()} score={score} shpereTexturePath={selectedTexture} />
+            </div>
           </div>
         ) : isMultiMode ? (
           <div>
-            <Three2 sphereTexturePath={selectedTexture} />
+            <BackgroundMusic musicPath="ingame.mp3" />
+            <Three3 />
             <ReturnButton
               onReturn={handleReturnToHome}
               text="Back to Menu"

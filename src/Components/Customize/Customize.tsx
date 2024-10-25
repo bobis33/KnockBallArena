@@ -3,10 +3,10 @@ import { useState } from 'react';
 import ReturnButton from '../Home/ReturnButton';
 
 const skins = [
-  { id: 1, color: 'bg-red-500', texturePath: 'skins/BasketballColor.jpg' },
-  { id: 2, color: 'bg-blue-500', texturePath: 'skins/NewTennisBallColor.jpg' },
-  { id: 3, color: 'bg-green-500', texturePath: 'skins/SoftballColor.jpg' },
-  { id: 4, color: 'bg-yellow-500', texturePath: 'skins/SoccerBallColor.jpg' },
+  { id: 1, color: 'bg-red-500', texturePath: 'skins/polboule.png' },
+  { id: 2, color: 'bg-blue-500', texturePath: 'skins/bobiboule.png' },
+  { id: 3, color: 'bg-green-500', texturePath: 'skins/titanboule.png' },
+  { id: 4, color: 'bg-yellow-500', texturePath: 'skins/julboule.png' },
 ];
 
 export default function Customize({ onBack, onTextureChange }: { onBack: () => void; onTextureChange: (texturePath: string) => void }) {

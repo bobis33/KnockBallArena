@@ -27,7 +27,7 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
         const loader = new THREE.TextureLoader();
         const backgroundTexture = loader.load('ciel.jpg');
 
-        const backgroundGeometry = new THREE.SphereGeometry(50, 64, 64);
+        const backgroundGeometry = new THREE.SphereGeometry(19, 64, 64);
         const backgroundMaterial = new THREE.MeshBasicMaterial({
             map: backgroundTexture,
             side: THREE.BackSide,
@@ -59,7 +59,7 @@ const Three2: React.FC<Three2Props> = ({ sphereTexturePath }) => {
             sphere.rotation.x += 0.01;
             sphere.rotation.y += 0.01;
 
-            backgroundSphere.rotation.y += 0.0005;
+            backgroundSphere.rotation.y += 0.0002;
 
             renderer.render(scene, camera);
         };
