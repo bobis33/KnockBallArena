@@ -4,15 +4,19 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import * as CANNON from 'cannon-es';
 import { supabase } from '../../supabaseClient';
 
-let nbBalls = 1;
+let nbBalls = 50;
 let ballsize = 1;
+let prevY = 0;
+let currentHighScore2 = 0;
+let score2 = 0;
 
 interface Three4Props {
     userId: string;
-    score: number;
+    score: number; 
+    handleBackToHome: () => void;
 }
 
-export default function Three4({ userId, shpereTexturePath }: Three4Props & { shpereTexturePath: string }) {
+export default function Three4({ userId, shpereTexturePath, handleBackToHome }: Three4Props & { shpereTexturePath: string }) {
 
     const canvasRef = useRef<HTMLDivElement>(null);
     const sphereBodiesRef = useRef<CANNON.Body[]>([]);
@@ -20,11 +24,55 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
     const controllableSphereRef = useRef<THREE.Mesh | null>(null);
     const controllableBodyRef = useRef<CANNON.Body | null>(null);
     const pressedKeys = useRef<Set<string>>(new Set());
-    const speedLimit = 4;
-    const acceleration = 1 * (ballsize * 2);
+    const speedLimit = 15;
+    const acceleration = 8 * (ballsize * 2);
     const deceleration = 1;
 
     const [score, setScore] = useState(0);
+    const [currentHighScore, setCurrentHighScore] = useState(0);
+
+
+    useEffect(() => {
+        const fetchHighScore = async () => {
+          if (!userId) return;
+    
+          try {
+            const { data, error } = await supabase
+                .from('profile')
+                .select('high_score')
+                .eq('id', userId)
+                .single();
+    
+            if (error) {
+              throw error;
+            }
+            if (data) {
+                currentHighScore2 = data.high_score;
+            }
+          } catch (error) {
+            console.error('Error fetching High Score:', error);
+          }
+        };
+    
+        fetchHighScore();
+      }, [userId]);
+
+    const SetHighScore = async () => {
+      if (!userId) return;
+      try {
+        const { data, error } = await supabase
+            .from('profile')
+            .update({ high_score: score2 })
+            .eq('id', userId)    
+        if (error) {
+          throw error;
+        }
+      } catch (error) {
+        console.error('Error setting High Score:', error);
+      }
+    };
+
+
 
 
     useEffect(() => {
@@ -45,6 +93,18 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
         controls.minDistance = 10;
         controls.maxDistance = 30;
         controls.enablePan = false;
+
+        const resetvalues = () => {
+            nbBalls = 30;
+            ballsize = 1;
+            prevY = 0;
+            sphereBodiesRef.current = [];
+            spheresRef.current = [];
+            controllableSphereRef.current = null;
+            controllableBodyRef.current = null;
+            pressedKeys.current.clear();
+            setScore(0);
+        }
     
         //background
     
@@ -82,7 +142,6 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
         }
     
         // boule controlable
-        console.log(shpereTexturePath);
         const controllableTexture = new THREE.TextureLoader().load(shpereTexturePath);
         const controllableMaterial = new THREE.MeshBasicMaterial({ map: controllableTexture });
         let controllableSphere = new THREE.Mesh(sphereGeometry, controllableMaterial);
@@ -161,11 +220,10 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
         // Augmenter le score
         const scoreInterval = setInterval(() => {
             setScore(prevScore => {
-                //console.log('Score:', prevScore + 1);
     
                 // Vérifiez si le score est divisible par 3 pour augmenter la taille
-                if ((prevScore + 1) % 1 === 0) {
-                    ballsize += 0.002; // Augmenter la taille de la boule
+                if ((prevScore + 1) % 1 === 0 && controllableBody.position.y > 0) {
+                    ballsize += 0.001; // Augmenter la taille de la boule
                     if (controllableSphereRef.current) {
                         controllableSphereRef.current.scale.set(ballsize, ballsize, ballsize); // Mettre à jour l'échelle du mesh
                     }
@@ -180,6 +238,8 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
                         controllableBody.addShape(newSphereShape); // Ajouter la nouvelle forme
                     }
                 }
+                setScore(prevScore + 1);
+                score2 = prevScore + 1;
                 return prevScore + 1; // Retourner le nouveau score
             });
         }, 50);
@@ -243,13 +303,25 @@ export default function Three4({ userId, shpereTexturePath }: Three4Props & { sh
                 controllableBody.velocity.z = Math.max(-speedLimit, Math.min(speedLimit, controllableBody.velocity.z));
     
                 // Vérifiez la position de la sphère contrôlable
-                console.log(controllableBody.position.y);
-                if (controllableBody.position.y < resetHeight - 5) {
-                    controllableBody.position.set(0, 5, 0);
-                    controllableBody.velocity.set(0, 0, 0);
-                    setScore(0); // Réinitialiser le score lorsque la boule tombe
-                    ballsize = 1;
+                //check si l'un est positif et l'autre négatif
+                if (controllableBody.position.y < 0 && prevY < 0) {
+                    if (controllableBody.position.y < resetHeight - 5) {
+                        if (prevY > resetHeight - 5) {
+                            if (score2 > currentHighScore2) {
+                                SetHighScore();
+                            }
+                            resetvalues();
+                            controllableBody.position.set(0, 5, 0);
+                            controllableBody.velocity.set(0, 0, 0);
+                            prevY = 5;
+                            setScore(0);
+                            ballsize = 1;
+                            handleBackToHome();
+                        }
+                    }
                 }
+                prevY = controllableBody.position.y;
+                
     
                 if (controllableSphereRef.current) {
                     controllableSphereRef.current.position.copy(controllableBody.position);

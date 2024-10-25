@@ -193,7 +193,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
         ) : isSoloMode ? (
           <div>
             <BackgroundMusic musicPath="ingame.mp3" />
-            <Three4 userId={userId.toString()} score={score} shpereTexturePath={selectedTexture} />
+            <Three4 userId={userId.toString()} score={score} shpereTexturePath={selectedTexture} handleBackToHome={handleReturnToHome} />
             <ReturnButton
               onReturn={handleReturnToHome}
               text="Back to Menu"
@@ -201,7 +201,7 @@ export default function HomePage({ onLogout }: HomePageProps) {
             />
             <div>
               <h1>Score: {score}</h1>
-              <Three4 userId={userId.toString()} score={score} shpereTexturePath={selectedTexture} />
+              <Three4 userId={userId.toString()} score={score} shpereTexturePath={selectedTexture} handleBackToHome={handleReturnToHome} />
             </div>
           </div>
         ) : isMultiMode ? (
